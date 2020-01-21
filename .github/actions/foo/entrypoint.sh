@@ -37,9 +37,9 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Content-Type: application/json" \
   -d "{\"state\": \"success\", \"context\": \"Vulnerability analysis\", \"target_url\": \"https://www.shiftleft.io/violationlist/$GITHUB_PROJECT?apps=$GITHUB_PROJECT&isApp=1\"}"
 
-TOTAL=$(VULNS | jq -c -r '.[0]')
-LOW=$(VULNS | jq -c -r '.[1]')
-HIGH=$(VULNS | jq -c -r '.[2]')
+TOTAL=$($VULNS | jq -c -r '.[0]')
+LOW=$($VULNS | jq -c -r '.[1]')
+HIGH=$($VULNS | jq -c -r '.[2]')
 
 COMMENT="## Vulnerability summary\n\Total: $TOTAL\nHigh impact: $HIGH\nLow impact: $LOW"
 
