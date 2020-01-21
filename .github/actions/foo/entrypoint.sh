@@ -1,5 +1,8 @@
 #!/bin/sh
 
+go get ./...
+go build
+
 GITHUB_BRANCH=${GITHUB_REF##*/}
 GITHUB_PROJECT=${GITHUB_REPO##*/}
 PULL_REQUEST=$(curl "https://api.github.com/repos/$GITHUB_REPO/pulls?state=open" \
