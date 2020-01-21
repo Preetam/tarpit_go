@@ -13,3 +13,5 @@ jobs:
         GITHUB_REPO: "${{ github.repository }}"
         GITHUB_SHA: "${{ github.sha }}"
         GITHUB_REF: "${{ github.ref }}"
+        SHIFTLEFT_ORG_ID: "${{ secrets.SHIFTLEFT_ORG_ID }}"
+        SHIFTLEFT_ACCESS_TOKEN: "${{ secrets.SHIFTLEFT_ACCESS_TOKEN }}"
