@@ -38,4 +38,4 @@ COMMENT="## Vulnerability summary\n\Total: $TOTAL\nHigh impact: $HIGH\nLow impac
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comments" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"body": "$COMMENT"}'
+  -d "{\"body\": \"$COMMENT\"}"
