@@ -20,7 +20,7 @@ curl "https://api.github.com/repos/$GITHUB_REPO/pulls?base=$GITHUB_BRANCH&state=
 GITHUB_BRANCH=${GITHUB_REF##*/}
 
 PULL_REQUEST=$(curl "https://api.github.com/repos/$GITHUB_REPO/pulls?state=open" \
-  -H "Authorization: Bearer $GITHUB_TOKEN" | jq ".[] | select(.base.sha==\"$GITHUB_SHA\") | .number")
+  -H "Authorization: Bearer $GITHUB_TOKEN" | jq ".[] | select(.head.sha==\"$GITHUB_SHA\") | .number")
 
 echo "Got pull request $PULL_REQUEST for branch $GITHUB_BRANCH"
 
