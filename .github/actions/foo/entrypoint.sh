@@ -17,6 +17,8 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
 curl "https://api.github.com/repos/$GITHUB_REPO/pulls?base=$GITHUB_BRANCH&state=open" \
   -H "Authorization: Bearer $GITHUB_TOKEN" | jq '.[0].number'
 
+GITHUB_BRANCH=${GITHUB_REF##*/}
+
 PULL_REQUEST=$(curl "https://api.github.com/repos/$GITHUB_REPO/pulls?base=$GITHUB_BRANCH&state=open" \
   -H "Authorization: Bearer $GITHUB_TOKEN" | jq '.[0].number')
 
