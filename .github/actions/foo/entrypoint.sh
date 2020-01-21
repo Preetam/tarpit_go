@@ -14,17 +14,28 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Content-Type: application/json" \
   -d '{"state": "pending", "context": "Code analysis"}'
 
-sl analyze --tag branch="$GITHUB_BRANCH" --app "$GITHUB_PROJECT" --go --cpg --wait
+sl analyze --tag branch="$GITHUB_BRANCH" --app "$GITHUB_PROJECT" --go --cpg --wait .
 
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"state": "failure", "context": "Code analysis"}'
+  -d '{"state": "success", "context": "Code analysis"}'
 
-curl "https://api.github.com/repos/$GITHUB_REPO/pulls?base=$GITHUB_BRANCH&state=open" \
-  -H "Authorization: Bearer $GITHUB_TOKEN" | jq '.[0].number'
+curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"state": "pending", "context": "Vulnerability analysis"}'
 
-#curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comments" \
-#  -H "Authorization: Bearer $GITHUB_TOKEN" \
-#  -H "Content-Type: application/json" \
-#  -d '{"body": "Test comment"}'
+VULNS=$(curl -XPOST "https://www.shiftleft.io/api/v3/public/org/$SHIFTLEFT_ORG_ID/app/$GITHUB_PROJECT/vulnerabilities/" \
+  -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" | jq '[.totalResults,.lowImpactResults,.highImpactResults]')
+
+TOTAL=$(VULNS | jq -c -r '.[0]')
+LOW=$(VULNS | jq -c -r '.[1]')
+HIGH=$(VULNS | jq -c -r '.[2]')
+
+COMMENT="## Vulnerability summary\n\Total: $TOTAL\nHigh impact: $HIGH\nLow impact: $LOW"
+
+curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comments" \
+  -H "Authorization: Bearer $GITHUB_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"body": "$COMMENT"}'
