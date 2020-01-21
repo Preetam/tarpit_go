@@ -30,16 +30,16 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -d '{"state": "pending", "context": "Vulnerability analysis"}'
 
 VULNS=$(curl -XPOST "https://www.shiftleft.io/api/v3/public/org/$SHIFTLEFT_ORG_ID/app/$GITHUB_PROJECT/vulnerabilities/" \
-  -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" | jq '[.totalResults,.lowImpactResults,.highImpactResults]')
+  -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" | jq -c -r '[.totalResults,.lowImpactResults,.highImpactResults]')
 
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{\"state\": \"success\", \"context\": \"Vulnerability analysis\", \"target_url\": \"https://www.shiftleft.io/violationlist/$GITHUB_PROJECT?apps=$GITHUB_PROJECT&isApp=1\"}"
 
-TOTAL=$($VULNS | jq -c -r '.[0]')
-LOW=$($VULNS | jq -c -r '.[1]')
-HIGH=$($VULNS | jq -c -r '.[2]')
+TOTAL=$(echo "$VULNS" | jq -c -r '.[0]')
+LOW=$(echo "$VULNS" | jq -c -r '.[1]')
+HIGH=$(echo "$VULNS" | jq -c -r '.[2]')
 
 COMMENT="## Vulnerability summary\n\Total: $TOTAL\nHigh impact: $HIGH\nLow impact: $LOW"
 
