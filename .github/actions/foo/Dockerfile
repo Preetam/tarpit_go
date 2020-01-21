@@ -1,6 +1,6 @@
 FROM alpine 
 
-RUN apk add curl
+RUN apk add curl jq
 
 COPY entrypoint.sh /entrypoint.sh
 

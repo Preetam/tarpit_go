@@ -12,3 +12,4 @@ jobs:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         GITHUB_REPO: "${{ github.repository }}"
         GITHUB_SHA: "${{ github.sha }}"
+        GITHUB_BRANCH: "${{ github.ref }}"
