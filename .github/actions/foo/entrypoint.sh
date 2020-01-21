@@ -41,7 +41,7 @@ TOTAL=$(echo "$VULNS" | jq -c -r '.[0]')
 LOW=$(echo "$VULNS" | jq -c -r '.[1]')
 HIGH=$(echo "$VULNS" | jq -c -r '.[2]')
 
-COMMENT="## Vulnerability summary\n\Total: $TOTAL\nHigh impact: $HIGH\nLow impact: $LOW"
+COMMENT="## Vulnerability summary\\\nTotal: $TOTAL\\\nHigh impact: $HIGH\\\nLow impact: $LOW"
 
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comments" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
