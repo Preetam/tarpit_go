@@ -6,6 +6,9 @@ PULL_REQUEST=$(curl "https://api.github.com/repos/$GITHUB_REPO/pulls?state=open"
   -H "Authorization: Bearer $GITHUB_TOKEN" | jq ".[] | select(.head.sha==\"$GITHUB_SHA\") | .number")
 echo "Got pull request $PULL_REQUEST for branch $GITHUB_BRANCH"
 
+go get ./...
+go build
+
 # Install ShiftLeft
 curl https://cdn.shiftleft.io/download/sl > /usr/local/bin/sl && chmod a+rx /usr/local/bin/sl
 
@@ -44,3 +47,5 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comm
   -H "Authorization: Bearer $GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{\"body\": \"$COMMENT\"}"
+
+sl check-analysis --app "$GITHUB_PROJECT" --branch "$GITHUB_BRANCH"
