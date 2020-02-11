@@ -1,8 +1,5 @@
 #!/bin/sh
 
-go get ./...
-go build
-
 GITHUB_BRANCH=${GITHUB_REF##*/}
 GITHUB_PROJECT=${GITHUB_REPO##*/}
 PULL_REQUEST=$(curl "https://api.github.com/repos/$GITHUB_REPO/pulls?state=open" \
@@ -17,7 +14,7 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Content-Type: application/json" \
   -d '{"state": "pending", "context": "Code analysis"}'
 
-sl analyze --tag branch="$GITHUB_BRANCH" --app "$GITHUB_PROJECT" --go --cpg --wait .
+sl analyze --version-id "$GITHUB_SHA" --tag branch="$GITHUB_BRANCH" --app "$GITHUB_PROJECT" --js --cpg --wait --force .
 
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
