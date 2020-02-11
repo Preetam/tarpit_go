@@ -17,7 +17,7 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Content-Type: application/json" \
   -d '{"state": "pending", "context": "Code analysis"}'
 
-sl analyze --version-id "$GITHUB_SHA" --tag branch="$GITHUB_BRANCH" --app "$GITHUB_PROJECT" --go --cpg --wait --force .
+sl analyze --version-id "$GITHUB_SHA" --tag branch="$GITHUB_BRANCH" --tag app.group="go-app" --app "$GITHUB_PROJECT" --go --cpg --wait --force .
 
 curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" \
   -H "Authorization: Bearer $GITHUB_TOKEN" \
