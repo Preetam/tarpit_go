@@ -15,6 +15,9 @@ var (
 // LoginHandler ... render login if get request, otherwise hand off to perform authentication
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 
+
+
+
 	//Hardcode credentials
 	AccessKeyID := "AKIA2E0A8F3B244C9986"
 	SecretKey := "7CE556A3BC234CC1FF9E8A5C324C0BB70AA21B6D"
@@ -37,6 +40,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 // LogoutHandler ... /logout
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	authenticated = false
+
 	enforcer(w, r, authenticated)
 }
 
