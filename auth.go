@@ -17,7 +17,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 
 
-
 	//Hardcode credentials
 	AccessKeyID := "AKIA2E0A8F3B244C9986"
 	SecretKey := "7CE556A3BC234CC1FF9E8A5C324C0BB70AA21B6D"
