@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+
 	rtr := mux.NewRouter()
 	http.Handle("/", rtr)
 
