@@ -48,4 +48,8 @@ curl -XPOST "https://api.github.com/repos/$GITHUB_REPO/issues/$PULL_REQUEST/comm
   -H "Content-Type: application/json" \
   -d "{\"body\": \"$COMMENT\"}"
 
+sleep 60
+
+echo "Running sl check-analysis"
+
 GODEBUG=http2debug=2 sl check-analysis --app "$GITHUB_PROJECT" --branch "$GITHUB_BRANCH"
