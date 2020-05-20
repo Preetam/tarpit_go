@@ -49,7 +49,7 @@ curl -s -XPOST "https://api.github.com/repos/$GITHUB_REPO/statuses/$GITHUB_SHA" 
 COMMENT_BODY='{"body":""}'
 COMMENT_BODY=$(echo "$COMMENT_BODY" | jq '.body += "<img height=20 src=\"https://www.shiftleft.io/static/images/ShiftLeft_logo_white.svg\"/> — Inspect Analysis Findings\n===\n\n"')
 
-NEW_FINDINGS=$(curl -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" "https://www.shiftleft.io/api/v4/orgs/$SHIFTLEFT_ORG_ID/apps/$GITHUB_PROJECT/scans/compare?source=tag.branch=master&target=tag.branch=$GITHUB_BRANCH" | jq -c -r '.response.new | .? | .[] | "* **ID " + .id + ":** " + "["+.severity+"] " + .title')
+NEW_FINDINGS=$(curl -H "Authorization: Bearer $SHIFTLEFT_API_TOKEN" "https://www.shiftleft.io/api/v4/orgs/$SHIFTLEFT_ORG_ID/apps/$GITHUB_PROJECT/scans/compare?source=tag.branch=master&target=tag.branch=$GITHUB_BRANCH" | jq -c -r '.response.new | .? | .[] | "* [ID " + .id + "](https://www.shiftleft.io/findingDetail/" + .app + "/" + .id + "): " + "["+.severity+"] " + .title')
 
 COMMENT_BODY=$(echo "$COMMENT_BODY" | jq ".body += \"### New findings\n\n\"")
 COMMENT_BODY=$(echo "$COMMENT_BODY" | jq ".body += \"$NEW_FINDINGS\n\n\"")
