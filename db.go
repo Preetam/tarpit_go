@@ -62,6 +62,10 @@ func dbQuery(sql string) *sql.Rows {
 		return nil
 	}
 
+	func() {
+		log.Println(sql)
+	}()
+
 	return row
 }
 
