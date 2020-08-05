@@ -56,6 +56,7 @@ func authCheck(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "User is not exist or password is not correct", http.StatusForbidden)
 	}
+	log.Println(user, pwd)
 }
 
 func checkUser(user string, pwd string) bool {
